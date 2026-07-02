@@ -58,27 +58,47 @@ frontend/
 ## Configuração do ambiente
 
 ### 1. Banco de dados
-Crie o banco no MySQL:
+O projeto usa MySQL/MariaDB e espera o banco `personal_expenses`.
+
+#### 1.1 Via SQL (phpMyAdmin ou terminal)
+Abra o SQL do phpMyAdmin ou um terminal MySQL e execute:
 
 ```sql
 CREATE DATABASE personal_expenses;
+CREATE USER 'matheus'@'localhost' IDENTIFIED BY 'senha123';
+GRANT ALL PRIVILEGES ON personal_expenses.* TO 'matheus'@'localhost';
+FLUSH PRIVILEGES;
 ```
+
+#### 1.2 Via phpMyAdmin (interface)
+1. Clique em `Novo` na coluna esquerda.
+2. Digite `personal_expenses` e clique em `Criar`.
+3. Vá em `Contas de usuário`.
+4. Adicione um novo usuário:
+   - Usuário: `matheus`
+   - Host: `localhost`
+   - Senha: `senha123`
+5. Conceda privilégios ao banco `personal_expenses`.
+6. Se preferir, use a aba `SQL` do banco `personal_expenses` e execute:
+
+```sql
+GRANT ALL PRIVILEGES ON personal_expenses.* TO 'matheus'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+> Importante: se você usar phpMyAdmin, execute o `GRANT` dentro do banco `personal_expenses` ou selecione esse banco antes de rodar o comando.
 
 ### 2. Backend
-Crie um arquivo `.env` dentro da pasta `backend`:
+No backend, use o arquivo de exemplo para criar seu `.env` localmente.
 
-```env
-PORT=3000
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_NAME=personal_expenses
-JWT_SECRET=sua_chave_jwt
-JWT_EXPIRE=1d
+```bash
+cd backend
+cp .env.example .env
 ```
 
-Instale as dependências e rode as migrations/seeders:
+Edite `backend/.env` se quiser alterar algum valor, mas mantenha o mesmo usuário e senha do MySQL.
+
+Instale dependências e rode as migrations/seeders:
 
 ```bash
 cd backend
@@ -95,13 +115,14 @@ Documentação Swagger: http://localhost:3000/docs/swagger.json
 Collection Postman: backend/postman_collection.json
 
 ### 3. Frontend
-Crie o arquivo `.env` dentro da pasta `frontend`:
+No frontend, crie o `.env` a partir do exemplo:
 
-```env
-VITE_API_URL=http://localhost:3000
+```bash
+cd frontend
+cp .env.example .env
 ```
 
-Instale as dependências e rode a aplicação:
+Instale dependências e rode a aplicação:
 
 ```bash
 cd frontend
@@ -110,6 +131,11 @@ npm run dev
 ```
 
 Frontend: http://localhost:5174
+
+### 4. Observações importantes
+- Não comite o arquivo `.env` no repositório.
+- Use `.env.example` como modelo para configurar o ambiente local.
+- Se o frontend não se conectar, verifique `backend/.env` e o estado do MySQL.
 
 ## Funcionalidades
 
