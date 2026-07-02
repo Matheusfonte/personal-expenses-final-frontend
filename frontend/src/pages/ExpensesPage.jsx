@@ -1,5 +1,5 @@
-// Resumo: Página de despesas. Lista despesas, permite CRUD, filtros,
-// ordenação e upload de comprovantes (integra com a API para persistência).
+// Resumo: Página de despesas. Suporta CRUD, filtros e upload de comprovante
+// via `FormData` com campo 'comprovante' (enviado como multipart/form-data).
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import Pagination from '../components/Pagination';
@@ -63,7 +63,7 @@ export default function ExpensesPage() {
     setError('');
 
     try {
-      // Support file upload if comprovanteFile is provided
+      
       if (comprovanteFile) {
         const formData = new FormData();
         formData.append('descricao', form.descricao);
@@ -134,7 +134,6 @@ export default function ExpensesPage() {
 
   const total = useMemo(() => expenses.reduce((sum, expense) => sum + Number(expense.valor || 0), 0), [expenses]);
   const paginatedExpenses = useMemo(() => {
-    // Apply sorting client-side
     const sorted = [...expenses].sort((a, b) => {
       let aVal = a[sortBy] ?? '';
       let bVal = b[sortBy] ?? '';

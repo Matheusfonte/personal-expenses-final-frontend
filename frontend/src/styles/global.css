@@ -146,6 +146,12 @@ body[data-theme='dark'] label {
   color: inherit;
 }
 
+body[data-theme='dark'] .cartoon-banner {
+  background-color: #111827 !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
 @media (max-width: 768px) {
   .cartoon-banner {
     flex-direction: column;

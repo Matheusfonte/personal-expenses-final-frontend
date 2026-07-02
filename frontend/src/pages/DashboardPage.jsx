@@ -1,5 +1,4 @@
-// Resumo: Dashboard com resumo financeiro e gráfico por categoria.
-// Busca estatísticas e últimas despesas da API para exibir ao usuário.
+// Dashboard: busca estatísticas e exibe resumo, tabela e gráfico por categoria.
 import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
@@ -38,6 +37,13 @@ export default function DashboardPage() {
     loadDashboard();
   }, []);
 
+  // Observações sobre o fetch:
+  // - `/dashboard/total-expenses` retorna { total }
+  // - `/dashboard/expenses-count` retorna { quantidade }
+  // - `/dashboard/expenses-by-category` retorna um array [{ categoria, total }]
+  // - `/expenses?limit=5` retorna as últimas despesas para a tabela
+  // Os resultados são combinados em `stats` e `recentExpenses`.
+
   if (loading) {
     return <div className="text-center py-5"><Spinner animation="border" /></div>;
   }
@@ -75,6 +81,13 @@ export default function DashboardPage() {
               ))}
               {stats.porCategoria.length > 0 && (
                 <div className="mt-3">
+                  {/*
+                    Gráfico de pizza (Pie):
+                    - labels: nomes das categorias (ex: 'Alimentação')
+                    - datasets[0].data: valores numéricos por categoria
+                    - backgroundColor: cores das fatias (fixas aqui)
+                    Os dados vêm de `stats.porCategoria`, atualizados pelo fetch acima.
+                  */}
                   <Pie data={{ labels: stats.porCategoria.map(i => i.categoria), datasets: [{ data: stats.porCategoria.map(i => Number(i.total)), backgroundColor: [ '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796' ] }] }} />
                 </div>
               )}

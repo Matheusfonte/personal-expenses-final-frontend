@@ -1,3 +1,5 @@
+// Resumo: Upload de comprovantes — multer grava o arquivo em 'uploads/'.
+// O backend monta a URL pública '/uploads/<filename>' e salva em `expenses.comprovanteUrl`.
 const { Op } = require('sequelize');
 const { Category, Expense } = require('../models');
 

@@ -1,0 +1,11 @@
+<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="250" rx="20" ry="20" fill="#f8f8f8" stroke="#ccc" stroke-width="3"/>
+  <text x="50%" y="20%" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#333">Comprovante de Pagamento</text>
+  <line x1="30" y1="65" x2="370" y2="65" stroke="#ccc" stroke-width="2" />
+  <text x="30" y="105" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Nome: </text>
+  <text x="30" y="135" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Valor: R$ 100,00</text>
+  <text x="30" y="165" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Data: 2026-07-02</text>
+  <text x="30" y="195" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#444">Descrição: Pagamento de serviço</text>
+  <rect x="260" y="180" width="110" height="35" rx="8" ry="8" fill="#4e73df" />
+  <text x="315" y="205" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff">OK</text>
+</svg>
