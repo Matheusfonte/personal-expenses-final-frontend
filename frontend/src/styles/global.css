@@ -75,7 +75,11 @@ body[data-theme='dark'] ::placeholder {
 
 body[data-theme='dark'] .nav-link,
 body[data-theme='dark'] .navbar-brand,
-body[data-theme='dark'] .dropdown-item,
+body[data-theme='dark'] .dropdown-item {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
 body[data-theme='dark'] .form-label,
 body[data-theme='dark'] label {
   color: #ffffff !important;
@@ -228,4 +232,16 @@ body[data-theme='dark'] .card .form-control,
 body[data-theme='dark'] .card select {
   background-color: #000000 !important;
   color: #ffffff !important;
+}
+
+/* Improve spacing for .bg-info small boxes */
+.bg-info {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-info-rgb), var(--bs-bg-opacity)) !important;
+  padding: 0.35rem 0.6rem !important;
+  margin-right: 0.5rem !important;
+  display: inline-block !important;
+  border-radius: 6px !important;
+  margin-bottom: 0.4rem !important;
+  vertical-align: middle !important;
 }
