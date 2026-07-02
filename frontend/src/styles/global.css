@@ -1,0 +1,231 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #111111;
+  background: #f8fafc;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #111111;
+}
+
+#root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+body[data-theme='dark'] {
+  background: #0f1722;
+  color: #e6eef6;
+}
+
+body[data-theme='dark'] .card,
+body[data-theme='dark'] .modal-content,
+body[data-theme='dark'] .navbar,
+body[data-theme='dark'] .dropdown-menu,
+body[data-theme='dark'] .form-control,
+body[data-theme='dark'] .form-select,
+body[data-theme='dark'] .table,
+body[data-theme='dark'] .table td,
+body[data-theme='dark'] .table th {
+  background-color: #0b1220;
+  color: #e6eef6;
+  border-color: #233044;
+}
+
+body[data-theme='dark'] .card,
+body[data-theme='dark'] .modal-content,
+body[data-theme='dark'] .navbar,
+body[data-theme='dark'] .dropdown-menu {
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+}
+
+body[data-theme='dark'] .form-control::placeholder {
+  color: #9aa6b2;
+}
+
+/* Dark-mode form input styles to ensure readability */
+body[data-theme='dark'] input,
+body[data-theme='dark'] textarea,
+body[data-theme='dark'] select,
+body[data-theme='dark'] .form-control,
+body[data-theme='dark'] .form-select {
+  background-color: #071226;
+  color: #e6eef6;
+  border-color: #233044;
+}
+
+body[data-theme='dark'] .form-control:focus,
+body[data-theme='dark'] .form-select:focus,
+body[data-theme='dark'] input:focus,
+body[data-theme='dark'] textarea:focus {
+  background-color: #071226;
+  color: #e6eef6;
+  border-color: #4c9aff;
+  box-shadow: none;
+}
+
+/* Ensure placeholder remains readable */
+body[data-theme='dark'] ::placeholder {
+  color: #9aa6b2 !important;
+  opacity: 1;
+}
+
+body[data-theme='dark'] .nav-link,
+body[data-theme='dark'] .navbar-brand,
+body[data-theme='dark'] .dropdown-item,
+body[data-theme='dark'] .form-label,
+body[data-theme='dark'] label {
+  color: #ffffff !important;
+  background-color: #000000 !important;
+}
+
+.card {
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: #ffffff;
+  color: #111111;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.table thead th {
+  color: #111111;
+}
+
+.form-control,
+.form-select,
+.form-label,
+.modal-content,
+.navbar,
+.dropdown-menu {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+.form-control::placeholder {
+  color: #6b7280;
+}
+
+.nav-link,
+.navbar-brand,
+.dropdown-item {
+  color: #111111 !important;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f5f9;
+  color: #111111;
+}
+
+.badge {
+  color: #111111;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.cartoon-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .cartoon-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Strong overrides to force black background and white text for inputs in dark mode */
+body[data-theme='dark'] input,
+body[data-theme='dark'] input.form-control,
+body[data-theme='dark'] textarea,
+body[data-theme='dark'] select,
+body[data-theme='dark'] .form-control,
+body[data-theme='dark'] .form-select,
+body[data-theme='dark'] .input-group .form-control,
+body[data-theme='dark'] .form-control.form-control-sm {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+body[data-theme='dark'] .form-select option {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] .form-control[style],
+body[data-theme='dark'] .form-select[style] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] .form-label,
+body[data-theme='dark'] label {
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] ::placeholder {
+  color: #d1d5db !important;
+  opacity: 1;
+}
+
+/* Extra strong overrides for inputs in dark mode (cover more cases and vendor placeholders) */
+body[data-theme='dark'] input,
+body[data-theme='dark'] input.form-control,
+body[data-theme='dark'] input[type="text"],
+body[data-theme='dark'] input[type="date"],
+body[data-theme='dark'] input[type="number"],
+body[data-theme='dark'] textarea,
+body[data-theme='dark'] select,
+body[data-theme='dark'] .form-control,
+body[data-theme='dark'] .form-select,
+body[data-theme='dark'] .input-group .form-control,
+body[data-theme='dark'] .form-control.form-control-sm {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+body[data-theme='dark'] .form-select option,
+body[data-theme='dark'] select option {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] .form-control[style],
+body[data-theme='dark'] .form-select[style] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body[data-theme='dark'] .form-label,
+body[data-theme='dark'] label {
+  color: #ffffff !important;
+}
+
+/* Vendor prefixed placeholders */
+body[data-theme='dark'] ::-webkit-input-placeholder { color: #9aa6b2 !important; }
+body[data-theme='dark'] ::-moz-placeholder { color: #9aa6b2 !important; }
+body[data-theme='dark'] :-ms-input-placeholder { color: #9aa6b2 !important; }
+body[data-theme='dark'] ::-ms-input-placeholder { color: #9aa6b2 !important; }
+body[data-theme='dark'] ::placeholder { color: #9aa6b2 !important; }
+
+/* If some components set background on parent, force children inputs */
+body[data-theme='dark'] .card input,
+body[data-theme='dark'] .card .form-control,
+body[data-theme='dark'] .card select {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}

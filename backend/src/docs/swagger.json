@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Despesas Pessoais",
+    "version": "1.0.0",
+    "description": "API RESTful para controle de despesas com Node.js, Express, Sequelize, MySQL, JWT e bcrypt."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "UserInput": {
+        "type": "object",
+        "required": ["nome", "email", "senha"],
+        "properties": {
+          "nome": { "type": "string", "example": "Maria Silva" },
+          "email": { "type": "string", "format": "email", "example": "maria@example.com" },
+          "senha": { "type": "string", "example": "senha123" }
+        }
+      },
+      "LoginInput": {
+        "type": "object",
+        "required": ["email", "senha"],
+        "properties": {
+          "email": { "type": "string", "format": "email", "example": "maria@example.com" },
+          "senha": { "type": "string", "example": "senha123" }
+        }
+      },
+      "CategoryInput": {
+        "type": "object",
+        "required": ["nome"],
+        "properties": {
+          "nome": { "type": "string", "example": "Alimentacao" },
+          "descricao": { "type": "string", "example": "Despesas com refeicoes" }
+        }
+      },
+      "ExpenseInput": {
+        "type": "object",
+        "required": ["descricao", "valor", "categoriaId"],
+        "properties": {
+          "descricao": { "type": "string", "example": "Almoco" },
+          "valor": { "type": "number", "example": 45.5 },
+          "data": { "type": "string", "format": "date", "example": "2026-06-16" },
+          "status": { "type": "string", "enum": ["PENDENTE", "PAGA"], "example": "PAGA" },
+          "categoriaId": { "type": "integer", "example": 1 }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "Cadastrar usuario",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserInput" } } }
+        },
+        "responses": {
+          "201": { "description": "Usuario cadastrado" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginInput" } } }
+        },
+        "responses": {
+          "200": { "description": "Login realizado" }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Listar categorias",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Categorias listadas" } }
+      },
+      "post": {
+        "summary": "Criar categoria",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CategoryInput" } } }
+        },
+        "responses": { "201": { "description": "Categoria criada" } }
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "summary": "Buscar categoria por ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Categoria encontrada" } }
+      },
+      "put": {
+        "summary": "Atualizar categoria",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CategoryInput" } } }
+        },
+        "responses": { "200": { "description": "Categoria atualizada" } }
+      },
+      "delete": {
+        "summary": "Excluir categoria",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Categoria excluida" } }
+      }
+    },
+    "/expenses": {
+      "get": {
+        "summary": "Listar despesas com filtros",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "categoria", "in": "query", "schema": { "type": "integer" } },
+          { "name": "categoriaId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["PENDENTE", "PAGA"] } },
+          { "name": "dataInicio", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "dataFim", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "valorMin", "in": "query", "schema": { "type": "number" } },
+          { "name": "valorMax", "in": "query", "schema": { "type": "number" } }
+        ],
+        "responses": { "200": { "description": "Despesas listadas" } }
+      },
+      "post": {
+        "summary": "Criar despesa",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExpenseInput" } } }
+        },
+        "responses": { "201": { "description": "Despesa criada" } }
+      }
+    },
+    "/expenses/{id}": {
+      "get": {
+        "summary": "Buscar despesa por ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Despesa encontrada" } }
+      },
+      "put": {
+        "summary": "Atualizar despesa",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ExpenseInput" } } }
+        },
+        "responses": { "200": { "description": "Despesa atualizada" } }
+      },
+      "delete": {
+        "summary": "Excluir despesa",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Despesa excluida" } }
+      }
+    },
+    "/dashboard/total-expenses": {
+      "get": {
+        "summary": "Total de gastos pagos",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Total calculado" } }
+      }
+    },
+    "/dashboard/expenses-count": {
+      "get": {
+        "summary": "Quantidade de despesas",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Quantidade calculada" } }
+      }
+    },
+    "/dashboard/expenses-by-category": {
+      "get": {
+        "summary": "Gastos por categoria",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Gastos agrupados por categoria" } }
+      }
+    }
+  }
+}
