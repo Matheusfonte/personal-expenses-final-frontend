@@ -46,6 +46,7 @@ app.use('/categories', categoryRoutes);
 app.use('/expenses', expenseRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/docs', express.static('src/docs'));
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res) => {
   res.status(404).json({ mensagem: 'Rota nao encontrada' });

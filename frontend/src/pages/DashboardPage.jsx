@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Row, Spinner, Table } from 'react-bootstrap';
+import { Pie } from 'react-chartjs-2';
+import 'chart.js/auto';
 import api from '../services/api';
 
 export default function DashboardPage() {
@@ -69,6 +71,11 @@ export default function DashboardPage() {
                   <Badge bg="info">R$ {Number(item.total).toFixed(2)}</Badge>
                 </div>
               ))}
+              {stats.porCategoria.length > 0 && (
+                <div className="mt-3">
+                  <Pie data={{ labels: stats.porCategoria.map(i => i.categoria), datasets: [{ data: stats.porCategoria.map(i => Number(i.total)), backgroundColor: [ '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796' ] }] }} />
+                </div>
+              )}
             </Card.Body>
           </Card>
         </Col>

@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const { 
   listExpenses, 
   getExpenseById, 
@@ -16,8 +18,8 @@ router.use(authenticateToken);
 // Rotas de despesas
 router.get('/', listExpenses);
 router.get('/:id', getExpenseById);
-router.post('/', createExpense);
-router.put('/:id', updateExpense);
+router.post('/', upload.single('comprovante'), createExpense);
+router.put('/:id', upload.single('comprovante'), updateExpense);
 router.delete('/:id', deleteExpense);
 
 module.exports = router;

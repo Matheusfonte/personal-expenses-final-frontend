@@ -15,6 +15,9 @@ export default function ExpensesPage() {
   const [filters, setFilters] = useState({ status: '', categoria: '', dataInicio: '', dataFim: '', valorMin: '', valorMax: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
+  const [sortBy, setSortBy] = useState('data');
+  const [sortDir, setSortDir] = useState('desc');
+  const [comprovanteFile, setComprovanteFile] = useState(null);
 
   async function loadData() {
     setLoading(true);
@@ -58,15 +61,33 @@ export default function ExpensesPage() {
     setError('');
 
     try {
-      const payload = { ...form, valor: Number(form.valor), categoriaId: Number(form.categoriaId) };
-      if (editingId) {
-        await api.put(`/expenses/${editingId}`, payload);
+      // Support file upload if comprovanteFile is provided
+      if (comprovanteFile) {
+        const formData = new FormData();
+        formData.append('descricao', form.descricao);
+        formData.append('valor', Number(form.valor));
+        formData.append('data', form.data);
+        formData.append('status', form.status);
+        formData.append('categoriaId', Number(form.categoriaId));
+        formData.append('comprovante', comprovanteFile);
+
+        if (editingId) {
+          await api.put(`/expenses/${editingId}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        } else {
+          await api.post('/expenses', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        }
       } else {
-        await api.post('/expenses', payload);
+        const payload = { ...form, valor: Number(form.valor), categoriaId: Number(form.categoriaId) };
+        if (editingId) {
+          await api.put(`/expenses/${editingId}`, payload);
+        } else {
+          await api.post('/expenses', payload);
+        }
       }
       setForm({ descricao: '', valor: '', data: '', status: 'PENDENTE', categoriaId: '' });
       setEditingId(null);
       setShowModal(false);
+      setComprovanteFile(null);
       loadData();
     } catch (err) {
       setError(err.response?.data?.mensagem || 'Não foi possível salvar a despesa.');
@@ -83,8 +104,19 @@ export default function ExpensesPage() {
       status: expense.status,
       categoriaId: expense.categoriaId || expense.categoria?.id || ''
     });
+    setComprovanteFile(null);
     setEditingId(expense.id);
     setShowModal(true);
+  };
+
+  const toggleSort = (field) => {
+    if (sortBy === field) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortBy(field);
+      setSortDir('asc');
+    }
+    setCurrentPage(1);
   };
 
   const handleDelete = async (id) => {
@@ -100,9 +132,25 @@ export default function ExpensesPage() {
 
   const total = useMemo(() => expenses.reduce((sum, expense) => sum + Number(expense.valor || 0), 0), [expenses]);
   const paginatedExpenses = useMemo(() => {
+    // Apply sorting client-side
+    const sorted = [...expenses].sort((a, b) => {
+      let aVal = a[sortBy] ?? '';
+      let bVal = b[sortBy] ?? '';
+      if (sortBy === 'categoria') {
+        aVal = a.categoria?.nome || a.categoria || '';
+        bVal = b.categoria?.nome || b.categoria || '';
+      }
+      if (sortBy === 'valor') {
+        return sortDir === 'asc' ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+      }
+      if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+      if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+
     const start = (currentPage - 1) * pageSize;
-    return expenses.slice(start, start + pageSize);
-  }, [expenses, currentPage]);
+    return sorted.slice(start, start + pageSize);
+  }, [expenses, currentPage, sortBy, sortDir]);
 
   const totalPages = Math.ceil(expenses.length / pageSize);
 
@@ -110,7 +158,7 @@ export default function ExpensesPage() {
     <div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Despesas</h2>
-        <Button onClick={() => { setForm({ descricao: '', valor: '', data: '', status: 'PENDENTE', categoriaId: '' }); setEditingId(null); setShowModal(true); }}>Nova despesa</Button>
+        <Button onClick={() => { setForm({ descricao: '', valor: '', data: '', status: 'PENDENTE', categoriaId: '' }); setEditingId(null); setComprovanteFile(null); setShowModal(true); }}>Nova despesa</Button>
       </div>
       {error && <Alert variant="danger">{error}</Alert>}
 
@@ -170,11 +218,11 @@ export default function ExpensesPage() {
             <Table responsive hover>
               <thead>
                 <tr>
-                  <th>Descrição</th>
-                  <th>Valor</th>
-                  <th>Status</th>
-                  <th>Categoria</th>
-                  <th>Data</th>
+                  <th style={{ cursor: 'pointer' }} onClick={() => toggleSort('descricao')}>Descrição {sortBy === 'descricao' ? (sortDir === 'asc' ? '▲' : '▼') : ''}</th>
+                  <th style={{ cursor: 'pointer' }} onClick={() => toggleSort('valor')}>Valor {sortBy === 'valor' ? (sortDir === 'asc' ? '▲' : '▼') : ''}</th>
+                  <th style={{ cursor: 'pointer' }} onClick={() => toggleSort('status')}>Status {sortBy === 'status' ? (sortDir === 'asc' ? '▲' : '▼') : ''}</th>
+                  <th style={{ cursor: 'pointer' }} onClick={() => toggleSort('categoria')}>Categoria {sortBy === 'categoria' ? (sortDir === 'asc' ? '▲' : '▼') : ''}</th>
+                  <th style={{ cursor: 'pointer' }} onClick={() => toggleSort('data')}>Data {sortBy === 'data' ? (sortDir === 'asc' ? '▲' : '▼') : ''}</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -184,11 +232,14 @@ export default function ExpensesPage() {
                     <td>{expense.descricao}</td>
                     <td>R$ {Number(expense.valor).toFixed(2)}</td>
                     <td><Badge bg={expense.status === 'PAGA' ? 'success' : 'warning'}>{expense.status}</Badge></td>
-                    <td>{expense.categoria?.nome}</td>
+                    <td>{expense.categoria?.nome || expense.categoria}</td>
                     <td>{expense.data}</td>
                     <td>
                       <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleEdit(expense)}>Editar</Button>
                       <Button variant="outline-danger" size="sm" onClick={() => handleDelete(expense.id)}>Excluir</Button>
+                      {expense.comprovanteUrl ? (
+                        <a className="ms-2" href={expense.comprovanteUrl} target="_blank" rel="noreferrer">Comprovante</a>
+                      ) : null}
                     </td>
                   </tr>
                 ))}
@@ -244,6 +295,10 @@ export default function ExpensesPage() {
                 </Form.Group>
               </Col>
             </Row>
+            <Form.Group className="mb-3">
+              <Form.Label>Comprovante (opcional)</Form.Label>
+              <Form.Control type="file" onChange={(e) => setComprovanteFile(e.target.files?.[0] || null)} />
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>Cancelar</Button>

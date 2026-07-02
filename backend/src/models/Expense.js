@@ -43,6 +43,10 @@ module.exports = (sequelize) => {
         key: 'id',
       },
     },
+    comprovanteUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     usuarioId: {
       type: DataTypes.INTEGER,
       allowNull: false,

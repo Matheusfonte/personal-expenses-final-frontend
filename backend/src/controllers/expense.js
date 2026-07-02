@@ -96,14 +96,22 @@ async function createExpense(req, res, next) {
       return res.status(404).json({ mensagem: 'Categoria nao encontrada' });
     }
 
-    const despesa = await Expense.create({
+    const newData = {
       descricao,
       valor,
       data,
       status,
       categoriaId,
       usuarioId: req.usuario.id,
-    });
+    };
+
+    if (req.file) {
+      // build a public URL for the uploaded file
+      const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      newData.comprovanteUrl = fileUrl;
+    }
+
+    const despesa = await Expense.create(newData);
 
     res.status(201).json({
       mensagem: 'Despesa criada com sucesso',
@@ -131,13 +139,20 @@ async function updateExpense(req, res, next) {
       return res.status(404).json({ mensagem: 'Categoria nao encontrada' });
     }
 
-    await despesa.update({
+    const updateData = {
       descricao: req.body.descricao ?? despesa.descricao,
       valor: req.body.valor ?? despesa.valor,
       data: req.body.data ?? despesa.data,
       status: req.body.status ?? despesa.status,
       categoriaId: req.body.categoriaId ?? despesa.categoriaId,
-    });
+    };
+
+    if (req.file) {
+      const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      updateData.comprovanteUrl = fileUrl;
+    }
+
+    await despesa.update(updateData);
 
     res.json({
       mensagem: 'Despesa atualizada com sucesso',
