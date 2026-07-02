@@ -1,3 +1,5 @@
+// Resumo: Ponto de entrada do frontend. Inicializa o React, carrega estilos
+// e monta o componente <App /> dentro do BrowserRouter.
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

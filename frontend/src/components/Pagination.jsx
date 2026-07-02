@@ -1,3 +1,5 @@
+// Resumo: Componente de paginação simples que renderiza números de página
+// e permite navegar entre páginas de listas (usado em categorias/despesas).
 import { Pagination as BSPagination } from 'react-bootstrap';
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {

@@ -1,3 +1,5 @@
+// Resumo: Componente de layout principal. Contém a barra de navegação,
+// botão de alternar tema e o local para renderizar as páginas via <Outlet />.
 import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

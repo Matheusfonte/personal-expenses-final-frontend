@@ -1,3 +1,5 @@
+// Resumo: Instância Axios central usada por todo o frontend para
+// chamar a API do backend (baseURL definido em frontend/.env).
 import axios from 'axios';
 
 const api = axios.create({
@@ -6,3 +8,5 @@ const api = axios.create({
 });
 
 export default api;
+
+

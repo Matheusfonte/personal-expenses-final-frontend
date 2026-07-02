@@ -1,3 +1,5 @@
+// Resumo: Contexto de tema (light/dark). Persiste a escolha no localStorage
+// e aplica atributos no DOM para que o CSS/Bootstrap mude o visual.
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const ThemeContext = createContext(null);

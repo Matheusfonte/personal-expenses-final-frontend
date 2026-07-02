@@ -1,3 +1,4 @@
+// Resumo: indica ao Sequelize CLI onde estão config, models, migrations e seeders do projeto.
 const path = require('path');
 
 module.exports = {

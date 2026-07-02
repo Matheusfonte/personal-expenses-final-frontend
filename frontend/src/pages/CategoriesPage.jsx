@@ -1,3 +1,5 @@
+// Resumo: Página de gerenciamento de categorias. Permite listar, criar,
+// editar e excluir categorias, com paginação simples.
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import Pagination from '../components/Pagination';

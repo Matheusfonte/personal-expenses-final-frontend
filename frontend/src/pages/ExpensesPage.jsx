@@ -1,3 +1,5 @@
+// Resumo: Página de despesas. Lista despesas, permite CRUD, filtros,
+// ordenação e upload de comprovantes (integra com a API para persistência).
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import Pagination from '../components/Pagination';

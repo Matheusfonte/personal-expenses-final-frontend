@@ -1,3 +1,5 @@
+// Resumo: Tela de login. Faz a autenticação do usuário via API e salva
+// token/usuário no contexto para sessão persistente.
 import { useState } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +12,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // LoginPage é a tela de autenticação. Aqui o usuário entra com email e senha.
+  // Ao submeter, ele chama o login do AuthContext para obter o token JWT.
 
   const handleSubmit = async (event) => {
     event.preventDefault();

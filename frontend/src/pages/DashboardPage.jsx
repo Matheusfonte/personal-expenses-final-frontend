@@ -1,3 +1,5 @@
+// Resumo: Dashboard com resumo financeiro e gráfico por categoria.
+// Busca estatísticas e últimas despesas da API para exibir ao usuário.
 import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
