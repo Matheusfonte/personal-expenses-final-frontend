@@ -48,12 +48,46 @@ backend/
 frontend/
   src/
     components/
-    pages/
-    routes/
-    services/
+      Header/
+        Nav.jsx
+      ui/
+        CartoonBanner.jsx
+        Pagination.jsx
     contexts/
+      AuthContext.jsx
+      ThemeContext.jsx
+    layouts/
+      MainLayout.jsx
+    pages/
+      Categories/
+        index.jsx
+      Dashboard/
+        index.jsx
+      Expenses/
+        index.jsx
+      Login/
+        index.jsx
+    routes/
+      PrivateRoute.jsx
+      index.jsx
+    services/
+      api.js
     styles/
+      global.css
+    App.jsx
+    main.jsx
 ```
+
+### Organização do frontend
+
+- `components/Header`: componentes do cabeçalho e navegação.
+- `components/ui`: componentes reutilizáveis da interface, como paginação e banner.
+- `contexts`: contextos globais de autenticação e tema.
+- `layouts`: estrutura visual das páginas logadas.
+- `pages`: telas principais separadas por módulo.
+- `routes`: definição das rotas e proteção de rotas privadas.
+- `services`: configuração do Axios para comunicação com a API.
+- `styles`: estilos globais do frontend.
 
 ## Configuração do ambiente
 
