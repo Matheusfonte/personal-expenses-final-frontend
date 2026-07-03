@@ -1,8 +1,8 @@
 // Gerencia despesas, filtros e comprovantes.
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row, Spinner, Table } from 'react-bootstrap';
-import Pagination from '../components/Pagination';
-import api from '../services/api';
+import Pagination from '../../components/ui/Pagination';
+import api from '../../services/api';
 
 export default function ExpensesPage() {
   // Guarda listas, formulario, filtros e estados da tela.

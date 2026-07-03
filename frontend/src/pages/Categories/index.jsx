@@ -1,8 +1,8 @@
 // Gerencia as categorias de despesas.
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Form, Modal, Spinner, Table } from 'react-bootstrap';
-import Pagination from '../components/Pagination';
-import api from '../services/api';
+import Pagination from '../../components/ui/Pagination';
+import api from '../../services/api';
 
 export default function CategoriesPage() {
   // Guarda lista, formulario e estados da tela.

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function LoginPage() {
   // Guarda os campos e estados da tela.

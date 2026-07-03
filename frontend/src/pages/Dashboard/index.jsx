@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
-import api from '../services/api';
+import api from '../../services/api';
 
 export default function DashboardPage() {
   // Guarda estatisticas, despesas recentes e estados da tela.
