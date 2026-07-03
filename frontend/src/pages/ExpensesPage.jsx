@@ -1,11 +1,11 @@
-// Resumo: Página de despesas. Suporta CRUD, filtros e upload de comprovante
-// via `FormData` com campo 'comprovante' (enviado como multipart/form-data).
+// Gerencia despesas, filtros e comprovantes.
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row, Spinner, Table } from 'react-bootstrap';
 import Pagination from '../components/Pagination';
 import api from '../services/api';
 
 export default function ExpensesPage() {
+  // Guarda listas, formulario, filtros e estados da tela.
   const [expenses, setExpenses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({ descricao: '', valor: '', data: '', status: 'PENDENTE', categoriaId: '' });
@@ -21,6 +21,7 @@ export default function ExpensesPage() {
   const [sortDir, setSortDir] = useState('desc');
   const [comprovanteFile, setComprovanteFile] = useState(null);
 
+  // Busca despesas e categorias na API.
   async function loadData() {
     setLoading(true);
     try {
@@ -37,10 +38,12 @@ export default function ExpensesPage() {
     }
   }
 
+  // Carrega os dados ao abrir a pagina.
   useEffect(() => {
     loadData();
   }, []);
 
+  // Monta os parametros usados nos filtros.
   const buildFiltersParams = (values) => {
     const params = {};
     if (values.status) params.status = values.status;
@@ -52,18 +55,20 @@ export default function ExpensesPage() {
     return params;
   };
 
+  // Aplica os filtros escolhidos.
   const handleFilterSubmit = (event) => {
     event.preventDefault();
     loadData();
   };
 
+  // Cria ou atualiza uma despesa.
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
     setError('');
 
     try {
-      
+      // Usa FormData quando existe arquivo de comprovante.
       if (comprovanteFile) {
         const formData = new FormData();
         formData.append('descricao', form.descricao);
@@ -79,6 +84,7 @@ export default function ExpensesPage() {
           await api.post('/expenses', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
         }
       } else {
+        // Envia JSON simples quando nao existe arquivo.
         const payload = { ...form, valor: Number(form.valor), categoriaId: Number(form.categoriaId) };
         if (editingId) {
           await api.put(`/expenses/${editingId}`, payload);
@@ -98,6 +104,7 @@ export default function ExpensesPage() {
     }
   };
 
+  // Preenche o formulario para edicao.
   const handleEdit = (expense) => {
     setForm({
       descricao: expense.descricao,
@@ -111,6 +118,7 @@ export default function ExpensesPage() {
     setShowModal(true);
   };
 
+  // Alterna a ordenacao da tabela.
   const toggleSort = (field) => {
     if (sortBy === field) {
       setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
@@ -121,6 +129,7 @@ export default function ExpensesPage() {
     setCurrentPage(1);
   };
 
+  // Exclui uma despesa apos confirmacao.
   const handleDelete = async (id) => {
     if (!window.confirm('Deseja excluir esta despesa?')) return;
 
@@ -132,7 +141,10 @@ export default function ExpensesPage() {
     }
   };
 
+  // Calcula o total das despesas carregadas.
   const total = useMemo(() => expenses.reduce((sum, expense) => sum + Number(expense.valor || 0), 0), [expenses]);
+
+  // Ordena e separa os itens da pagina atual.
   const paginatedExpenses = useMemo(() => {
     const sorted = [...expenses].sort((a, b) => {
       let aVal = a[sortBy] ?? '';

@@ -1,5 +1,4 @@
-// Resumo: Componente de layout principal. Contém a barra de navegação,
-// botão de alternar tema e o local para renderizar as páginas via <Outlet />.
+// Monta a estrutura principal das paginas logadas.
 import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -7,10 +6,12 @@ import { useTheme } from '../contexts/ThemeContext';
 import CartoonBanner from './CartoonBanner';
 
 export default function Layout() {
+  // Busca usuario, logout e tema nos contextos.
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
+  // Sai da conta e volta para o login.
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -18,6 +19,7 @@ export default function Layout() {
 
   return (
     <>
+      {/* Barra de navegacao do sistema. */}
       <Navbar bg={theme === 'dark' ? 'dark' : 'light'} variant={theme === 'dark' ? 'dark' : 'light'} expand="lg" className="mb-4 navbar-showcase">
         <Container>
           <Navbar.Brand as={Link} to="/">Controle de Despesas</Navbar.Brand>
@@ -38,6 +40,7 @@ export default function Layout() {
         </Container>
       </Navbar>
 
+      {/* Area onde cada pagina interna aparece. */}
       <Container className="pb-4">
         <CartoonBanner />
         <Outlet />

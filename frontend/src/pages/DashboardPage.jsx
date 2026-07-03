@@ -1,4 +1,4 @@
-// Dashboard: busca estatísticas e exibe resumo, tabela e gráfico por categoria.
+// Mostra o resumo financeiro do usuario.
 import { useEffect, useState } from 'react';
 import { Alert, Badge, Card, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { Pie } from 'react-chartjs-2';
@@ -6,11 +6,13 @@ import 'chart.js/auto';
 import api from '../services/api';
 
 export default function DashboardPage() {
+  // Guarda estatisticas, despesas recentes e estados da tela.
   const [stats, setStats] = useState({ total: 0, quantidade: 0, porCategoria: [] });
   const [recentExpenses, setRecentExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Carrega os dados do dashboard ao abrir a pagina.
   useEffect(() => {
     async function loadDashboard() {
       try {
@@ -37,13 +39,7 @@ export default function DashboardPage() {
     loadDashboard();
   }, []);
 
-  // Observações sobre o fetch:
-  // - `/dashboard/total-expenses` retorna { total }
-  // - `/dashboard/expenses-count` retorna { quantidade }
-  // - `/dashboard/expenses-by-category` retorna um array [{ categoria, total }]
-  // - `/expenses?limit=5` retorna as últimas despesas para a tabela
-  // Os resultados são combinados em `stats` e `recentExpenses`.
-
+  // Mostra carregamento enquanto os dados chegam.
   if (loading) {
     return <div className="text-center py-5"><Spinner animation="border" /></div>;
   }
@@ -81,13 +77,7 @@ export default function DashboardPage() {
               ))}
               {stats.porCategoria.length > 0 && (
                 <div className="mt-3">
-                  {/*
-                    Gráfico de pizza (Pie):
-                    - labels: nomes das categorias (ex: 'Alimentação')
-                    - datasets[0].data: valores numéricos por categoria
-                    - backgroundColor: cores das fatias (fixas aqui)
-                    Os dados vêm de `stats.porCategoria`, atualizados pelo fetch acima.
-                  */}
+                  {/* Grafico de pizza por categoria. */}
                   <Pie data={{ labels: stats.porCategoria.map(i => i.categoria), datasets: [{ data: stats.porCategoria.map(i => Number(i.total)), backgroundColor: [ '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796' ] }] }} />
                 </div>
               )}

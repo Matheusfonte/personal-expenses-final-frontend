@@ -1,13 +1,12 @@
 :root {
+  /* Define fonte e cores base do projeto. */
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #111111;
   background: #f8fafc;
 }
 
-/* Resumo: Estilos globais da aplicação, incluindo regras para
-   dark mode que respondem ao atributo body[data-theme='dark']. */
-
 body {
+  /* Remove margem padrao e ocupa a tela toda. */
   margin: 0;
   min-height: 100vh;
   background: #f8fafc;
@@ -15,15 +14,18 @@ body {
 }
 
 #root {
+  /* Garante altura minima para o React. */
   min-height: 100vh;
   background: transparent;
 }
 
 body[data-theme='dark'] {
+  /* Aplica o fundo e texto do modo escuro. */
   background: #0f1722;
   color: #e6eef6;
 }
 
+/* Ajusta componentes do Bootstrap no modo escuro. */
 body[data-theme='dark'] .card,
 body[data-theme='dark'] .modal-content,
 body[data-theme='dark'] .navbar,
@@ -38,6 +40,7 @@ body[data-theme='dark'] .table th {
   border-color: #233044;
 }
 
+/* Adiciona sombra aos blocos no modo escuro. */
 body[data-theme='dark'] .card,
 body[data-theme='dark'] .modal-content,
 body[data-theme='dark'] .navbar,
@@ -49,7 +52,7 @@ body[data-theme='dark'] .form-control::placeholder {
   color: #9aa6b2;
 }
 
-/* Dark-mode form input styles to ensure readability */
+/* Mantem campos legiveis no modo escuro. */
 body[data-theme='dark'] input,
 body[data-theme='dark'] textarea,
 body[data-theme='dark'] select,
@@ -60,6 +63,7 @@ body[data-theme='dark'] .form-select {
   border-color: #233044;
 }
 
+/* Destaca o campo ativo no modo escuro. */
 body[data-theme='dark'] .form-control:focus,
 body[data-theme='dark'] .form-select:focus,
 body[data-theme='dark'] input:focus,
@@ -70,12 +74,13 @@ body[data-theme='dark'] textarea:focus {
   box-shadow: none;
 }
 
-/* Ensure placeholder remains readable */
+/* Deixa placeholders visiveis no modo escuro. */
 body[data-theme='dark'] ::placeholder {
   color: #9aa6b2 !important;
   opacity: 1;
 }
 
+/* Ajusta textos de navegacao no modo escuro. */
 body[data-theme='dark'] .nav-link,
 body[data-theme='dark'] .navbar-brand,
 body[data-theme='dark'] .dropdown-item {
@@ -83,6 +88,7 @@ body[data-theme='dark'] .dropdown-item {
   background-color: transparent !important;
 }
 
+/* Mantem labels claras no modo escuro. */
 body[data-theme='dark'] .form-label,
 body[data-theme='dark'] label {
   color: #ffffff !important;
@@ -90,6 +96,7 @@ body[data-theme='dark'] label {
 }
 
 .card {
+  /* Padroniza os cards da aplicacao. */
   border: 1px solid rgba(15, 23, 42, 0.06);
   background: #ffffff;
   color: #111111;
@@ -98,9 +105,11 @@ body[data-theme='dark'] label {
 }
 
 .table thead th {
+  /* Mantem o cabecalho da tabela legivel. */
   color: #111111;
 }
 
+/* Define cores padrao dos controles claros. */
 .form-control,
 .form-select,
 .form-label,
@@ -112,9 +121,11 @@ body[data-theme='dark'] label {
 }
 
 .form-control::placeholder {
+  /* Cor dos placeholders no modo claro. */
   color: #6b7280;
 }
 
+/* Cor dos links de navegacao no modo claro. */
 .nav-link,
 .navbar-brand,
 .dropdown-item {
@@ -122,19 +133,23 @@ body[data-theme='dark'] label {
 }
 
 .dropdown-item:hover {
+  /* Realce ao passar o mouse no menu. */
   background-color: #f1f5f9;
   color: #111111;
 }
 
 .badge {
+  /* Garante contraste nos badges. */
   color: #111111;
 }
 
 .min-vh-100 {
+  /* Classe auxiliar para altura total da tela. */
   min-height: 100vh;
 }
 
 .cartoon-banner {
+  /* Organiza o banner de boas-vindas. */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -147,19 +162,21 @@ body[data-theme='dark'] label {
 }
 
 body[data-theme='dark'] .cartoon-banner {
+  /* Adapta o banner ao modo escuro. */
   background-color: #111827 !important;
   color: #ffffff !important;
   border-color: #334155 !important;
 }
 
 @media (max-width: 768px) {
+  /* Empilha o banner em telas menores. */
   .cartoon-banner {
     flex-direction: column;
     text-align: center;
   }
 }
 
-/* Strong overrides to force black background and white text for inputs in dark mode */
+/* Forca campos pretos quando o Bootstrap sobrescreve o tema. */
 body[data-theme='dark'] input,
 body[data-theme='dark'] input.form-control,
 body[data-theme='dark'] textarea,
@@ -173,28 +190,32 @@ body[data-theme='dark'] .form-control.form-control-sm {
   border-color: #333333 !important;
 }
 
+/* Ajusta opcoes dos selects no modo escuro. */
 body[data-theme='dark'] .form-select option {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
+/* Corrige campos que chegam com estilo inline. */
 body[data-theme='dark'] .form-control[style],
 body[data-theme='dark'] .form-select[style] {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
+/* Reforca labels claras no modo escuro. */
 body[data-theme='dark'] .form-label,
 body[data-theme='dark'] label {
   color: #ffffff !important;
 }
 
+/* Reforca placeholders claros no modo escuro. */
 body[data-theme='dark'] ::placeholder {
   color: #d1d5db !important;
   opacity: 1;
 }
 
-/* Extra strong overrides for inputs in dark mode (cover more cases and vendor placeholders) */
+/* Cobre mais tipos de input no modo escuro. */
 body[data-theme='dark'] input,
 body[data-theme='dark'] input.form-control,
 body[data-theme='dark'] input[type="text"],
@@ -211,31 +232,34 @@ body[data-theme='dark'] .form-control.form-control-sm {
   border-color: #333333 !important;
 }
 
+/* Mantem opcoes de select legiveis. */
 body[data-theme='dark'] .form-select option,
 body[data-theme='dark'] select option {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
+/* Reforca estilos inline em campos. */
 body[data-theme='dark'] .form-control[style],
 body[data-theme='dark'] .form-select[style] {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
+/* Mantem labels visiveis. */
 body[data-theme='dark'] .form-label,
 body[data-theme='dark'] label {
   color: #ffffff !important;
 }
 
-/* Vendor prefixed placeholders */
+/* Placeholder em navegadores diferentes. */
 body[data-theme='dark'] ::-webkit-input-placeholder { color: #9aa6b2 !important; }
 body[data-theme='dark'] ::-moz-placeholder { color: #9aa6b2 !important; }
 body[data-theme='dark'] :-ms-input-placeholder { color: #9aa6b2 !important; }
 body[data-theme='dark'] ::-ms-input-placeholder { color: #9aa6b2 !important; }
 body[data-theme='dark'] ::placeholder { color: #9aa6b2 !important; }
 
-/* If some components set background on parent, force children inputs */
+/* Corrige campos dentro de cards escuros. */
 body[data-theme='dark'] .card input,
 body[data-theme='dark'] .card .form-control,
 body[data-theme='dark'] .card select {
@@ -243,7 +267,7 @@ body[data-theme='dark'] .card select {
   color: #ffffff !important;
 }
 
-/* Improve spacing for .bg-info small boxes */
+/* Melhora o espaco dos badges informativos. */
 .bg-info {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-info-rgb), var(--bs-bg-opacity)) !important;

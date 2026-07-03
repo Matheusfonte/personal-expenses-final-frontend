@@ -1,4 +1,4 @@
-// Banner simples usado no layout principal para tornar a interface mais amigável.
+// Exibe uma mensagem de boas-vindas.
 export default function CartoonBanner() {
   return (
     <div className="cartoon-banner p-3 mb-4 rounded-3 border">

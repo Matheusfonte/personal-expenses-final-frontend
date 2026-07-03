@@ -1,14 +1,15 @@
-// Resumo: Contexto de autenticação. Gerencia login, logout e mantém
-// token JWT no localStorage para requisições autenticadas.
+// Guarda os dados de autenticacao do usuario.
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+  // Controla usuario logado e carregamento inicial.
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Recupera a sessao salva no navegador.
   useEffect(() => {
     const storedUser = localStorage.getItem('expense-user');
     const storedToken = localStorage.getItem('expense-token');
@@ -21,9 +22,7 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  // O useEffect inicializa a autenticação usando dados do localStorage,
-  // mantendo o usuário logado mesmo após atualizar a página.
-
+  // Faz login e salva o token JWT.
   const login = async (email, senha) => {
     const response = await api.post('/auth/login', { email, senha });
     const { token, usuario } = response.data;
@@ -34,9 +33,7 @@ export function AuthProvider({ children }) {
     setUser(usuario);
   };
 
-  // O login salva token e usuário no localStorage e configura o header Authorization
-  // para que todas as requisições seguintes usem o token JWT.
-
+  // Encerra a sessao do usuario.
   const logout = () => {
     localStorage.removeItem('expense-token');
     localStorage.removeItem('expense-user');
@@ -44,13 +41,13 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  // O logout remove os dados de sessão e limpa o header de autorização.
-
+  // Evita recriar o objeto do contexto sem necessidade.
   const value = useMemo(() => ({ user, loading, login, logout }), [user, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// Facilita o acesso ao contexto de autenticacao.
 export function useAuth() {
   return useContext(AuthContext);
 }

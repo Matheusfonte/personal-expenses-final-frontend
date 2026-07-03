@@ -7,18 +7,16 @@ import DashboardPage from './pages/DashboardPage';
 import CategoriesPage from './pages/CategoriesPage';
 import ExpensesPage from './pages/ExpensesPage';
 
-// App.jsx define as rotas do React e controla o acesso protegido por login.
-// O usuário só acessa as rotas internas se estiver autenticado.
-
+// Protege as paginas que exigem login.
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
+  // Aguarda a verificacao da sessao.
   if (loading) return <div className="text-center p-5">Carregando...</div>;
   return user ? children : <Navigate to="/login" replace />;
 }
 
-// ProtectedRoute impede acesso às rotas privadas quando não há usuário logado.
-
+// Define as rotas da aplicacao.
 function AppRoutes() {
   return (
     <Routes>
@@ -40,6 +38,7 @@ function AppRoutes() {
   );
 }
 
+// Junta os contextos globais do sistema.
 export default function App() {
   return (
     <AuthProvider>
@@ -49,6 +48,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-// AuthProvider e ThemeProvider ficam no topo do aplicativo, fornecendo
-// estado global de autenticação e tema para toda a aplicação.

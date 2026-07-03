@@ -1,11 +1,11 @@
-// Resumo: Página de gerenciamento de categorias. Permite listar, criar,
-// editar e excluir categorias, com paginação simples.
+// Gerencia as categorias de despesas.
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import Pagination from '../components/Pagination';
 import api from '../services/api';
 
 export default function CategoriesPage() {
+  // Guarda lista, formulario e estados da tela.
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({ nome: '', descricao: '' });
   const [editingId, setEditingId] = useState(null);
@@ -16,6 +16,7 @@ export default function CategoriesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
 
+  // Busca as categorias na API.
   async function loadCategories() {
     setLoading(true);
     try {
@@ -28,10 +29,12 @@ export default function CategoriesPage() {
     }
   }
 
+  // Carrega a lista ao abrir a pagina.
   useEffect(() => {
     loadCategories();
   }, []);
 
+  // Cria ou atualiza uma categoria.
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
@@ -54,12 +57,14 @@ export default function CategoriesPage() {
     }
   };
 
+  // Preenche o formulario para edicao.
   const handleEdit = (category) => {
     setForm({ nome: category.nome, descricao: category.descricao || '' });
     setEditingId(category.id);
     setShowModal(true);
   };
 
+  // Separa apenas os itens da pagina atual.
   const paginatedCategories = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
     return categories.slice(start, start + pageSize);
@@ -67,6 +72,7 @@ export default function CategoriesPage() {
 
   const totalPages = Math.ceil(categories.length / pageSize);
 
+  // Exclui uma categoria apos confirmacao.
   const handleDelete = async (id) => {
     if (!window.confirm('Deseja excluir esta categoria?')) return;
 
