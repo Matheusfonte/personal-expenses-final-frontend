@@ -17,7 +17,13 @@ export default function HeaderNav() {
   };
 
   return (
-    <Navbar bg={theme === 'dark' ? 'dark' : 'light'} variant={theme === 'dark' ? 'dark' : 'light'} expand="lg" className="mb-4 navbar-showcase">
+    <Navbar
+      bg={theme === 'dark' ? 'dark' : 'light'}
+      variant={theme === 'dark' ? 'dark' : 'light'}
+      expand="lg"
+      sticky="top"
+      className="mb-4 navbar-showcase"
+    >
       <Container>
         <Navbar.Brand as={Link} to="/">Controle de Despesas</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -38,3 +44,4 @@ export default function HeaderNav() {
     </Navbar>
   );
 }
+
