@@ -1,7 +1,7 @@
 // Tela responsavel pelo login.
 import { useState } from 'react';
 import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function LoginPage() {
@@ -49,8 +49,13 @@ export default function LoginPage() {
               {loading ? <Spinner animation="border" size="sm" /> : 'Entrar'}
             </Button>
           </Form>
+          <div className="text-center mt-3">
+            <span className="text-muted">Ainda nao tem conta? </span>
+            <Link to="/register">Cadastrar pessoa</Link>
+          </div>
         </Card.Body>
       </Card>
     </div>
   );
 }
+

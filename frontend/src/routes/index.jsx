@@ -5,12 +5,14 @@ import CategoriesPage from '../pages/Categories';
 import DashboardPage from '../pages/Dashboard';
 import ExpensesPage from '../pages/Expenses';
 import LoginPage from '../pages/Login';
+import RegisterPage from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
       <Route
         path="/"
         element={
@@ -27,3 +29,4 @@ export default function AppRoutes() {
     </Routes>
   );
 }
+

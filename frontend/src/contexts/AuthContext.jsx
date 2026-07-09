@@ -33,6 +33,17 @@ export function AuthProvider({ children }) {
     setUser(usuario);
   };
 
+
+  // Cadastra uma pessoa e ja inicia a sessao.
+  const register = async (nome, email, senha) => {
+    const response = await api.post('/users', { nome, email, senha });
+    const { token, usuario } = response.data;
+
+    localStorage.setItem('expense-token', token);
+    localStorage.setItem('expense-user', JSON.stringify(usuario));
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    setUser(usuario);
+  };
   // Encerra a sessao do usuario.
   const logout = () => {
     localStorage.removeItem('expense-token');
@@ -42,7 +53,7 @@ export function AuthProvider({ children }) {
   };
 
   // Evita recriar o objeto do contexto sem necessidade.
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading]);
+  const value = useMemo(() => ({ user, loading, login, register, logout }), [user, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
@@ -51,3 +62,4 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
+
